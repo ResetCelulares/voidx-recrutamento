@@ -36,6 +36,12 @@ Full Gás Day<br>
 <input type="text" id="nivelJogador" placeholder="Nível" required>
 <button type="submit">Enviar via WhatsApp</button>
 </form>
+</section><section>
+<h2>👑 Destaques da Semana</h2>
+<div id="destaqueSemana"></div>
+</section><section>
+<h2>🏆 Destaques do Mês</h2>
+<div id="destaqueMes"></div>
 </section><!-- BOTÃO ADMIN --><section>
 <button onclick="abrirLoginAdmin()">🔒 Área Admin</button>
 </section><!-- LOGIN ADMIN --><div class="modal" id="loginAdmin">
@@ -51,7 +57,11 @@ Full Gás Day<br>
 <h2>⚙️ Painel Admin</h2>
 <input type="text" id="nomeRank" placeholder="Nome">
 <input type="text" id="pontosRank" placeholder="Pontos">
-<button onclick="addRanking()">Adicionar Ranking</button>
+<button onclick="addRanking()">Adicionar Ranking</button><h3>Adicionar Destaque da Semana</h3>
+<input type="text" id="nomeSemana" placeholder="Nome">
+<button onclick="addSemana()">Adicionar</button><h3>Adicionar Destaque do Mês</h3>
+<input type="text" id="nomeMes" placeholder="Nome">
+<button onclick="addMes()">Adicionar</button>
 </div>
 </div><!-- MODAL EVENTO --><div class="modal" id="modal">
 <div class="modal-content">
@@ -97,5 +107,25 @@ function addRanking(){
  card.innerText=`${nome} - ${pontos} pts`;
  div.appendChild(card);
 }
+
+function addSemana(){
+ let nome=document.getElementById('nomeSemana').value;
+ let div=document.getElementById('destaqueSemana');
+ let card=document.createElement('div');
+ card.className='card';
+ card.innerText=`🔥 ${nome}`;
+ div.appendChild(card);
+}
+
+function addMes(){
+ let nome=document.getElementById('nomeMes').value;
+ let div=document.getElementById('destaqueMes');
+ let card=document.createElement('div');
+ card.className='card';
+ card.innerText=`👑 ${nome}`;
+ div.appendChild(card);
+} - ${pontos} pts`;
+ div.appendChild(card);
+}
 </script></body>
-                               </html>
+ </html>
