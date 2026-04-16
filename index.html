@@ -2,34 +2,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOID X GUILDA</title>
-<style>
-body {font-family: Arial; margin:0; background:#0d0d0d; color:#fff;}
-header {background:#ff0000; padding:20px; text-align:center; font-size:24px; font-weight:bold;}
+<title>VOID X GUILDA</title><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet"><style>
+body {
+  font-family: 'Orbitron', Arial;
+  margin:0;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color:#fff;
+}
+
+header {
+  background: linear-gradient(90deg, #ff0000, #ff7300);
+  padding:20px;
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
+  box-shadow: 0 0 20px red;
+}
+
 section {padding:20px;}
-.card {background:#1a1a1a; padding:15px; margin:10px 0; border-radius:10px;}
-button {background:#ff0000; color:#fff; border:none; padding:10px 15px; border-radius:5px; cursor:pointer;}
-</style>
-</head>
-<body><header>🔥 VOID X GUILDA 🔥</header><section>
-<h2>👑 Destaques da Semana</h2>
-<div class="card">1º Lugar - Nome</div>
-<div class="card">2º Lugar - Nome</div>
-<div class="card">3º Lugar - Nome</div>
+
+h2 {color:#ff7300; text-shadow:0 0 10px red;}
+
+.card {
+  background:#111;
+  padding:15px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid #ff0000;
+  box-shadow:0 0 10px rgba(255,0,0,0.3);
+  transition:0.3s;
+}
+
+.card:hover {transform: scale(1.03);}
+
+button {
+  background: linear-gradient(90deg,#ff0000,#ff7300);
+  color:#fff;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  box-shadow:0 0 10px red;
+}
+
+button:hover {transform: scale(1.05);}
+
+input {
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:5px;
+  border:none;
+}
+
+</style></head><body><header>🔥 VOID X GUILDA 🔥</header><section>
+<h2>📊 Status da Guilda</h2>
+<div class="card">👥 Membros: 55/55</div>
+<div class="card">🏆 Nível: 5</div>
+<div class="card">🔥 Pontos semanais: 36638</div>
 </section><section>
-<h2>🏆 Destaques do Mês</h2>
-<div class="card">Top do mês - Nome</div>
+<h2>🏆 Ranking ao Vivo</h2>
+<div class="card">🥇 BRUXO - 5500 pts</div>
+<div class="card">🥈 EPSTEIN - 5100 pts</div>
+<div class="card">🥉 CHEFIN - 1300 pts</div>
 </section><section>
-<h2>⚔️ Horários de Guerra</h2>
-<div class="card">Sexta - 19:00</div>
-<div class="card">Sábado - 16:00</div>
+<h2>👑 Liderança</h2>
+<div class="card">👑 Líder: Chefin</div>
+<div class="card">⚔️ Vice: Bruxo</div>
+<div class="card">🎯 Organizador: ---</div>
 </section><section>
-<h2>🎉 Eventos</h2>
-<div class="card">Full Gás Day</div>
-<div class="card">Desafio da Semana</div>
+<h2>🎥 Vídeo da Guilda</h2>
+<iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
 </section><section>
 <h2>📩 Recrutamento</h2>
-<div class="card">Quer entrar na guilda? Clique abaixo:</div>
-<button onclick="window.location.href='https://wa.me/5189612793'">Falar no WhatsApp</button>
-</section></body>
+<form>
+<input type="text" placeholder="Nome" required>
+<input type="text" placeholder="ID" required>
+<input type="text" placeholder="Nível" required>
+<button type="submit" onclick="somClick()">Enviar</button>
+</form>
+</section><audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
+<script>
+function somClick(){
+  document.getElementById('clickSound').play();
+}
+</script></body>
   </html>
