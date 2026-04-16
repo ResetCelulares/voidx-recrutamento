@@ -15,11 +15,7 @@ input {width:100%; padding:10px; margin:5px 0;}
 .modal-content {background:#111; padding:20px; border-radius:10px; width:90%; max-width:400px;}
 .close {cursor:pointer; color:red; float:right;}
 </style></head>
-<body><header>🔥 VOID X GUILDA 🔥</header><!-- LOGIN ADMIN --><section id="loginSection">
-<h2>🔒 Login Admin</h2>
-<input type="password" id="senha" placeholder="Digite a senha">
-<button onclick="login()">Entrar</button>
-</section><!-- CONTEÚDO DO SITE --><div id="conteudo" style="display:none;"><section>
+<body><header>🔥 VOID X GUILDA 🔥</header><!-- SITE LIBERADO --><section>
 <h2>📊 Status da Guilda</h2>
 <div class="card">👥 Membros: 55/55</div>
 <div class="card">🏆 Nível: 5</div>
@@ -40,12 +36,24 @@ Full Gás Day<br>
 <input type="text" id="nivelJogador" placeholder="Nível" required>
 <button type="submit">Enviar via WhatsApp</button>
 </form>
-</section><section id="adminPanel" style="display:none;">
+</section><!-- BOTÃO ADMIN --><section>
+<button onclick="abrirLoginAdmin()">🔒 Área Admin</button>
+</section><!-- LOGIN ADMIN --><div class="modal" id="loginAdmin">
+<div class="modal-content">
+<span class="close" onclick="fecharLoginAdmin()">X</span>
+<h2>🔒 Login Admin</h2>
+<input type="password" id="senha" placeholder="Senha">
+<button onclick="loginAdmin()">Entrar</button>
+</div>
+</div><!-- PAINEL ADMIN --><div class="modal" id="adminPanel">
+<div class="modal-content">
+<span class="close" onclick="fecharAdmin()">X</span>
 <h2>⚙️ Painel Admin</h2>
 <input type="text" id="nomeRank" placeholder="Nome">
 <input type="text" id="pontosRank" placeholder="Pontos">
 <button onclick="addRanking()">Adicionar Ranking</button>
-</section></div><div class="modal" id="modal">
+</div>
+</div><!-- MODAL EVENTO --><div class="modal" id="modal">
 <div class="modal-content">
 <span class="close" onclick="fecharModal()">X</span>
 <h2>📅 Calendário</h2>
@@ -53,18 +61,20 @@ Full Gás Day<br>
 <p>Segunda - 16:00</p>
 </div>
 </div><script>
-const senhaCorreta = "Freefire"; // MUDE ISSO
+const senhaCorreta = "Freefire"; // MUDE
 
-function login(){
- let senha = document.getElementById('senha').value;
- if(senha === senhaCorreta){
-   document.getElementById('loginSection').style.display='none';
-   document.getElementById('conteudo').style.display='block';
-   document.getElementById('adminPanel').style.display='block';
- } else {
-   alert('Senha incorreta!');
- }
+function abrirLoginAdmin(){document.getElementById('loginAdmin').style.display='flex';}
+function fecharLoginAdmin(){document.getElementById('loginAdmin').style.display='none';}
+
+function loginAdmin(){
+ let senha=document.getElementById('senha').value;
+ if(senha===senhaCorreta){
+   fecharLoginAdmin();
+   document.getElementById('adminPanel').style.display='flex';
+ } else {alert('Senha incorreta');}
 }
+
+function fecharAdmin(){document.getElementById('adminPanel').style.display='none';}
 
 function abrirModal(){document.getElementById('modal').style.display='flex';}
 function fecharModal(){document.getElementById('modal').style.display='none';}
@@ -74,7 +84,7 @@ function enviarWhats(event){
  let nome=document.getElementById('nome').value;
  let id=document.getElementById('id').value;
  let nivel=document.getElementById('nivelJogador').value;
- let msg=`Quero entrar na guilda VOID X:%0A Nome:${nome}%0A ID:${id}%0A Nível:${nivel}`;
+ let msg=`Quero entrar na VOID X:%0A Nome:${nome}%0A ID:${id}%0A Nível:${nivel}`;
  window.open(`https://wa.me/5189612793?text=${msg}`);
 }
 
@@ -88,4 +98,4 @@ function addRanking(){
  div.appendChild(card);
 }
 </script></body>
- </html>
+                               </html>
