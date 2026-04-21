@@ -3,125 +3,101 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VOID X GUILDA</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet"><style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<style>
 body {font-family:'Orbitron', Arial; margin:0; background:#000; color:#fff;}
 header {background:linear-gradient(90deg,#ff0000,#ff7300); padding:20px; text-align:center; font-size:26px;}
 section {padding:20px;}
 h2 {color:#ff7300;}
 .card {background:#111; padding:15px; margin:10px 0; border-radius:10px; border:1px solid red;}
 button {background:linear-gradient(90deg,#ff0000,#ff7300); color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer;}
-input, textarea {width:100%; padding:10px; margin:5px 0;}
-.modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center;}
-.modal-content {background:#111; padding:20px; border-radius:10px; width:90%; max-width:400px;}
-.close {cursor:pointer; color:red; float:right;}
-.progress {background:#333; border-radius:10px; overflow:hidden;}
+input, textarea, select {width:100%; padding:10px; margin:5px 0;}
+.progress {background:#333; border-radius:10px;}
 .progress-bar {background:#ff0000; padding:10px; text-align:center;}
-</style></head>
+</style>
+</head>
 <body><header>🔥 VOID X GUILDA 🔥</header><section>
 <h2>📊 Status da Guilda</h2>
 <div class="card">👥 Membros: 55/55</div>
 <div class="card">🏆 Nível: 5</div>
-<div class="card">📈 Progresso:</div>
 <div class="progress"><div class="progress-bar" style="width:70%">128k / 185k</div></div>
 </section><section>
 <h2>🏆 Ranking</h2>
 <div id="ranking"></div>
 </section><section>
-<h2>👑 Destaques da Semana</h2>
+<h2>👑 Destaques</h2>
 <div id="destaqueSemana"></div>
-</section><section>
-<h2>🏆 Destaques do Mês</h2>
 <div id="destaqueMes"></div>
 </section><section>
 <h2>🎖️ Hall da Fama</h2>
 <div id="hallFama"></div>
 </section><section>
-<h2>⚔️ Escalação da Guerra</h2>
+<h2>⚔️ Presença na Guerra</h2>
+<input id="nomePresenca" placeholder="Seu nome">
+<button onclick="marcarPresenca()">Confirmar presença</button>
+<div id="presenca"></div>
+</section><section>
+<h2>⚔️ Escalação</h2>
 <div id="escalacao"></div>
 </section><section>
-<h2>📊 Resultados das Guerras</h2>
+<h2>📊 Resultados</h2>
 <div id="resultados"></div>
 </section><section>
-<h2>📈 Metas Semanais</h2>
-<div id="metas"></div>
+<h2>🎯 Funções</h2>
+<select id="funcao">
+<option>Rushador</option>
+<option>Suporte</option>
+<option>Sniper</option>
+<option>Líder</option>
+</select>
+<button onclick="addFuncao()">Adicionar função</button>
+<div id="funcoes"></div>
 </section><section>
-<h2>🎉 Eventos</h2>
-<div class="card">Full Gás Day<br><button id="btnEvento">Ver calendário</button></div>
+<h2>👤 Perfil Jogador</h2>
+<input id="perfilNome" placeholder="Nome">
+<input id="perfilId" placeholder="ID">
+<input id="perfilFuncao" placeholder="Função">
+<button onclick="addPerfil()">Adicionar</button>
+<div id="perfil"></div>
 </section><section>
-<h2>💬 Mural da Guilda</h2>
+<h2>💬 Mural</h2>
 <textarea id="msg"></textarea>
 <button onclick="addMsg()">Enviar</button>
 <div id="mural"></div>
 </section><section>
 <h2>📩 Recrutamento</h2>
-<form id="formRecrutamento">
-<input type="text" id="nome" placeholder="Nome" required>
-<input type="text" id="id" placeholder="ID" required>
-<input type="text" id="nivelJogador" placeholder="Nível" required>
-<button type="submit">Enviar via WhatsApp</button>
+<form onsubmit="enviarWhats(event)">
+<input id="nome" placeholder="Nome">
+<input id="id" placeholder="ID">
+<input id="nivelJogador" placeholder="Nível">
+<button type="submit">Enviar WhatsApp</button>
 </form>
 </section><section>
-<h2>🛡️ Liderança</h2>
-<div class="card">👑 Líder: ---</div>
-<div class="card">⚔️ Vice: ---</div>
-<div class="card">🎯 Organizadores: ---</div>
+<h2>📸 Galeria</h2>
+<input id="linkImg" placeholder="Link da imagem">
+<button onclick="addImg()">Adicionar</button>
+<div id="galeria"></div>
 </section><section>
-<h2>📜 Regras</h2>
-<div class="card">• Respeito • Atividade • Compromisso</div>
-</section><section>
-<button id="btnAdmin">🔒 Área Admin</button>
-</section><!-- MODAIS --><div class="modal" id="modalEvento"><div class="modal-content"><span class="close" id="fecharEvento">X</span><h2>📅 Calendário</h2><p>Sexta 19:00</p><p>Sábado 16:00</p></div></div><div class="modal" id="loginAdmin"><div class="modal-content"><span class="close" id="fecharLogin">X</span><h2>🔒 Login</h2><input type="password" id="senha"><button id="btnLogin">Entrar</button></div></div><div class="modal" id="adminPanel"><div class="modal-content"><span class="close" id="fecharAdmin">X</span>
-<h2>⚙️ Admin</h2>
-<input id="nomeRank" placeholder="Nome"><input id="pontosRank" placeholder="Pontos"><button id="addRank">Ranking</button>
-<input id="nomeSemana" placeholder="Semana"><button id="addSemana">Semana</button>
-<input id="nomeMes" placeholder="Mês"><button id="addMes">Mês</button>
-<input id="nomeFama" placeholder="Hall da fama"><button onclick="add('hallFama','nomeFama')">Fama</button>
-<input id="nomeEscalacao" placeholder="Escalação"><button onclick="add('escalacao','nomeEscalacao')">Escalação</button>
-<input id="nomeResultado" placeholder="Resultado"><button onclick="add('resultados','nomeResultado')">Resultado</button>
-<input id="nomeMeta" placeholder="Meta"><button onclick="add('metas','nomeMeta')">Meta</button>
-</div></div><script>
-const senhaCorreta="voidx123";
+<h2>⚠️ Avisos</h2>
+<div id="avisos"></div>
+</section><script>
+function salvar(){localStorage.setItem('site',document.body.innerHTML)}
+function carregar(){if(localStorage.getItem('site')) document.body.innerHTML=localStorage.getItem('site')}
 
-// eventos
-btnEvento.onclick=()=>modalEvento.style.display='flex';
-fecharEvento.onclick=()=>modalEvento.style.display='none';
+function add(id,val){document.getElementById(id).innerHTML+=`<div class='card'>${val}</div>`;salvar();}
 
-btnAdmin.onclick=()=>loginAdmin.style.display='flex';
-fecharLogin.onclick=()=>loginAdmin.style.display='none';
-fecharAdmin.onclick=()=>adminPanel.style.display='none';
+function marcarPresenca(){add('presenca',nomePresenca.value)}
+function addFuncao(){add('funcoes',funcao.value)}
+function addPerfil(){add('perfil',perfilNome.value+' - '+perfilFuncao.value)}
+function addMsg(){add('mural',msg.value);msg.value=''}
+function addImg(){add('galeria',`<img src='${linkImg.value}' width='100%'>`)}
 
-btnLogin.onclick=()=>{
- if(senha.value===senhaCorreta){loginAdmin.style.display='none';adminPanel.style.display='flex';}
- else alert('Senha incorreta');
-}
-
-formRecrutamento.onsubmit=(e)=>{
+function enviarWhats(e){
  e.preventDefault();
  let msg=`Quero entrar VOID X:%0A${nome.value}%0A${id.value}%0A${nivelJogador.value}`;
  window.open(`https://wa.me/5189612793?text=${msg}`);
 }
 
-// salvar
-function salvar(){localStorage.setItem('site',document.body.innerHTML)}
-function carregar(){if(localStorage.getItem('site')) document.body.innerHTML=localStorage.getItem('site')}
-
-// add
-addRank.onclick=()=>{ranking.innerHTML+=`<div class='card'>${nomeRank.value} - ${pontosRank.value}</div>`;salvar();}
-addSemana.onclick=()=>{destaqueSemana.innerHTML+=`<div class='card'>🔥 ${nomeSemana.value}</div>`;salvar();}
-addMes.onclick=()=>{destaqueMes.innerHTML+=`<div class='card'>👑 ${nomeMes.value}</div>`;salvar();}
-
-function add(id,input){
- let v=document.getElementById(input).value;
- document.getElementById(id).innerHTML+=`<div class='card'>${v}</div>`;
- salvar();
-}
-
-function addMsg(){
- mural.innerHTML+=`<div class='card'>${msg.value}</div>`;
- msg.value='';
- salvar();
-}
-
 window.onload=carregar;
 </script></body>
-            </html>
+ </html>
