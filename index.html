@@ -10,15 +10,19 @@ section {padding:20px;}
 h2 {color:#ff7300;}
 .card {background:#111; padding:15px; margin:10px 0; border-radius:10px; border:1px solid red;}
 button {background:linear-gradient(90deg,#ff0000,#ff7300); color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer;}
-input {width:100%; padding:10px; margin:5px 0;}
+input, textarea {width:100%; padding:10px; margin:5px 0;}
 .modal {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center;}
 .modal-content {background:#111; padding:20px; border-radius:10px; width:90%; max-width:400px;}
 .close {cursor:pointer; color:red; float:right;}
+.progress {background:#333; border-radius:10px; overflow:hidden;}
+.progress-bar {background:#ff0000; padding:10px; text-align:center;}
 </style></head>
 <body><header>🔥 VOID X GUILDA 🔥</header><section>
 <h2>📊 Status da Guilda</h2>
 <div class="card">👥 Membros: 55/55</div>
 <div class="card">🏆 Nível: 5</div>
+<div class="card">📈 Progresso:</div>
+<div class="progress"><div class="progress-bar" style="width:70%">128k / 185k</div></div>
 </section><section>
 <h2>🏆 Ranking</h2>
 <div id="ranking"></div>
@@ -29,11 +33,25 @@ input {width:100%; padding:10px; margin:5px 0;}
 <h2>🏆 Destaques do Mês</h2>
 <div id="destaqueMes"></div>
 </section><section>
+<h2>🎖️ Hall da Fama</h2>
+<div id="hallFama"></div>
+</section><section>
+<h2>⚔️ Escalação da Guerra</h2>
+<div id="escalacao"></div>
+</section><section>
+<h2>📊 Resultados das Guerras</h2>
+<div id="resultados"></div>
+</section><section>
+<h2>📈 Metas Semanais</h2>
+<div id="metas"></div>
+</section><section>
 <h2>🎉 Eventos</h2>
-<div class="card">
-Full Gás Day<br>
-<button id="btnEvento">Ver calendário</button>
-</div>
+<div class="card">Full Gás Day<br><button id="btnEvento">Ver calendário</button></div>
+</section><section>
+<h2>💬 Mural da Guilda</h2>
+<textarea id="msg"></textarea>
+<button onclick="addMsg()">Enviar</button>
+<div id="mural"></div>
 </section><section>
 <h2>📩 Recrutamento</h2>
 <form id="formRecrutamento">
@@ -43,123 +61,67 @@ Full Gás Day<br>
 <button type="submit">Enviar via WhatsApp</button>
 </form>
 </section><section>
+<h2>🛡️ Liderança</h2>
+<div class="card">👑 Líder: ---</div>
+<div class="card">⚔️ Vice: ---</div>
+<div class="card">🎯 Organizadores: ---</div>
+</section><section>
+<h2>📜 Regras</h2>
+<div class="card">• Respeito • Atividade • Compromisso</div>
+</section><section>
 <button id="btnAdmin">🔒 Área Admin</button>
-</section><!-- LOGIN ADMIN --><div class="modal" id="loginAdmin">
-<div class="modal-content">
-<span class="close" id="fecharLogin">X</span>
-<h2>🔒 Login Admin</h2>
-<input type="password" id="senha" placeholder="Senha">
-<button id="btnLogin">Entrar</button>
-</div>
-</div><!-- PAINEL ADMIN --><div class="modal" id="adminPanel">
-<div class="modal-content">
-<span class="close" id="fecharAdmin">X</span>
-<h2>⚙️ Painel Admin</h2>
-<input type="text" id="nomeRank" placeholder="Nome">
-<input type="text" id="pontosRank" placeholder="Pontos">
-<button id="addRank">Adicionar Ranking</button><h3>Destaque Semana</h3>
-<input type="text" id="nomeSemana" placeholder="Nome">
-<button id="addSemana">Adicionar</button><h3>Destaque Mês</h3>
-<input type="text" id="nomeMes" placeholder="Nome">
-<button id="addMes">Adicionar</button>
-</div>
-</div><!-- MODAL EVENTO --><div class="modal" id="modalEvento">
-<div class="modal-content">
-<span class="close" id="fecharEvento">X</span>
-<h2>📅 Calendário</h2>
-<p>Segunda - 19:00</p>
-<p>Quarta - 16:00</p>
-</div>
-</div><script>
-const senhaCorreta = "voidx123";
+</section><!-- MODAIS --><div class="modal" id="modalEvento"><div class="modal-content"><span class="close" id="fecharEvento">X</span><h2>📅 Calendário</h2><p>Sexta 19:00</p><p>Sábado 16:00</p></div></div><div class="modal" id="loginAdmin"><div class="modal-content"><span class="close" id="fecharLogin">X</span><h2>🔒 Login</h2><input type="password" id="senha"><button id="btnLogin">Entrar</button></div></div><div class="modal" id="adminPanel"><div class="modal-content"><span class="close" id="fecharAdmin">X</span>
+<h2>⚙️ Admin</h2>
+<input id="nomeRank" placeholder="Nome"><input id="pontosRank" placeholder="Pontos"><button id="addRank">Ranking</button>
+<input id="nomeSemana" placeholder="Semana"><button id="addSemana">Semana</button>
+<input id="nomeMes" placeholder="Mês"><button id="addMes">Mês</button>
+<input id="nomeFama" placeholder="Hall da fama"><button onclick="add('hallFama','nomeFama')">Fama</button>
+<input id="nomeEscalacao" placeholder="Escalação"><button onclick="add('escalacao','nomeEscalacao')">Escalação</button>
+<input id="nomeResultado" placeholder="Resultado"><button onclick="add('resultados','nomeResultado')">Resultado</button>
+<input id="nomeMeta" placeholder="Meta"><button onclick="add('metas','nomeMeta')">Meta</button>
+</div></div><script>
+const senhaCorreta="voidx123";
 
-// ELEMENTOS
-const loginModal = document.getElementById('loginAdmin');
-const adminModal = document.getElementById('adminPanel');
-const eventoModal = document.getElementById('modalEvento');
+// eventos
+btnEvento.onclick=()=>modalEvento.style.display='flex';
+fecharEvento.onclick=()=>modalEvento.style.display='none';
 
-// BOTÕES
+btnAdmin.onclick=()=>loginAdmin.style.display='flex';
+fecharLogin.onclick=()=>loginAdmin.style.display='none';
+fecharAdmin.onclick=()=>adminPanel.style.display='none';
 
-document.getElementById('btnEvento').onclick = () => eventoModal.style.display = 'flex';
-document.getElementById('fecharEvento').onclick = () => eventoModal.style.display = 'none';
-
-// ADMIN
-
-document.getElementById('btnAdmin').onclick = () => loginModal.style.display = 'flex';
-document.getElementById('fecharLogin').onclick = () => loginModal.style.display = 'none';
-document.getElementById('fecharAdmin').onclick = () => adminModal.style.display = 'none';
-
-// LOGIN
-
-document.getElementById('btnLogin').onclick = () => {
-  const senha = document.getElementById('senha').value;
-  if(senha === senhaCorreta){
-    loginModal.style.display = 'none';
-    adminModal.style.display = 'flex';
-  } else {
-    alert('Senha incorreta');
-  }
-};
-
-// RECRUTAMENTO
-
-document.getElementById('formRecrutamento').addEventListener('submit', function(e){
-  e.preventDefault();
-  const nome = document.getElementById('nome').value;
-  const id = document.getElementById('id').value;
-  const nivel = document.getElementById('nivelJogador').value;
-
-  const msg = `Quero entrar na VOID X:%0A Nome:${nome}%0A ID:${id}%0A Nível:${nivel}`;
-
-  window.open(`https://wa.me/5189612793?text=${msg}`, '_blank');
-});
-
-// RANKING + STORAGE
-
-const rankingDiv = document.getElementById('ranking');
-const semanaDiv = document.getElementById('destaqueSemana');
-const mesDiv = document.getElementById('destaqueMes');
-
-function salvar(){
-  localStorage.setItem('ranking', rankingDiv.innerHTML);
-  localStorage.setItem('semana', semanaDiv.innerHTML);
-  localStorage.setItem('mes', mesDiv.innerHTML);
+btnLogin.onclick=()=>{
+ if(senha.value===senhaCorreta){loginAdmin.style.display='none';adminPanel.style.display='flex';}
+ else alert('Senha incorreta');
 }
 
-function carregar(){
-  rankingDiv.innerHTML = localStorage.getItem('ranking') || '';
-  semanaDiv.innerHTML = localStorage.getItem('semana') || '';
-  mesDiv.innerHTML = localStorage.getItem('mes') || '';
+formRecrutamento.onsubmit=(e)=>{
+ e.preventDefault();
+ let msg=`Quero entrar VOID X:%0A${nome.value}%0A${id.value}%0A${nivelJogador.value}`;
+ window.open(`https://wa.me/5189612793?text=${msg}`);
 }
 
-// ADD
+// salvar
+function salvar(){localStorage.setItem('site',document.body.innerHTML)}
+function carregar(){if(localStorage.getItem('site')) document.body.innerHTML=localStorage.getItem('site')}
 
-document.getElementById('addRank').onclick = () => {
-  const nome = document.getElementById('nomeRank').value;
-  const pontos = document.getElementById('pontosRank').value;
-  rankingDiv.innerHTML += `<div class='card'>${nome} - ${pontos} pts</div>`;
-  salvar();
-};
+// add
+addRank.onclick=()=>{ranking.innerHTML+=`<div class='card'>${nomeRank.value} - ${pontosRank.value}</div>`;salvar();}
+addSemana.onclick=()=>{destaqueSemana.innerHTML+=`<div class='card'>🔥 ${nomeSemana.value}</div>`;salvar();}
+addMes.onclick=()=>{destaqueMes.innerHTML+=`<div class='card'>👑 ${nomeMes.value}</div>`;salvar();}
 
-document.getElementById('addSemana').onclick = () => {
-  const nome = document.getElementById('nomeSemana').value;
-  semanaDiv.innerHTML += `<div class='card'>🔥 ${nome}</div>`;
-  salvar();
-};
+function add(id,input){
+ let v=document.getElementById(input).value;
+ document.getElementById(id).innerHTML+=`<div class='card'>${v}</div>`;
+ salvar();
+}
 
-document.getElementById('addMes').onclick = () => {
-  const nome = document.getElementById('nomeMes').value;
-  mesDiv.innerHTML += `<div class='card'>👑 ${nome}</div>`;
-  salvar();
-};
+function addMsg(){
+ mural.innerHTML+=`<div class='card'>${msg.value}</div>`;
+ msg.value='';
+ salvar();
+}
 
-// FECHAR AO CLICAR FORA
-window.onclick = function(e){
-  if(e.target === eventoModal) eventoModal.style.display='none';
-  if(e.target === loginModal) loginModal.style.display='none';
-  if(e.target === adminModal) adminModal.style.display='none';
-};
-
-carregar();
+window.onload=carregar;
 </script></body>
- </html>
+            </html>
